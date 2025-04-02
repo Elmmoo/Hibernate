@@ -3,10 +3,8 @@ package jm.task.core.jdbc.dao;
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.sql.JDBCType.BIGINT;
@@ -19,7 +17,7 @@ public class UserDaoJDBCImpl implements UserDao {
     public void createUsersTable() {
         try(Connection connection = new Util().getConnection();
             Statement statement = connection.createStatement()) {
-            String sql = "Create table if not exists users (id BIGINT AUTO_INCRIMENT PRIMARY KEY, name VARCHAR(255), lastname VARCHAR(255), age TYNYINT)";
+            String sql = "Create table if not exists users (id BIGINT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), lastname VARCHAR(255), age TINYINT)";
             statement.executeUpdate(sql);
 
         } catch (SQLException e) {
@@ -55,14 +53,53 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void removeUserById(long id) {
+        String sql = "delete from users where id = ?";
+        try(Connection connection = new Util().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setLong(1, id);
+            int line = preparedStatement.executeUpdate();
+            if (line > 0) {
+                System.out.println("Юзер по id " + id + " был удален");
+            } else {
+                System.out.println("Юзер не найден по данному id " + id);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
     public List<User> getAllUsers() {
-        return null;
+        String sql = "SELECT * FROM users";
+        List<User> users = new ArrayList<>();
+
+        try (Connection connection = new Util().getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(sql)) {
+
+            while (resultSet.next()) {
+                User user = new User();
+                user.setId(resultSet.getLong("id"));
+                user.setName(resultSet.getString("name"));
+                user.setLastName(resultSet.getString("lastname"));
+                user.setAge(resultSet.getByte("age"));
+                users.add(user);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return users;
     }
 
     public void cleanUsersTable() {
+        String sql = "DELETE FROM users";
+        try (Connection connection = new Util().getConnection();
+             Statement statement = connection.createStatement()) {
+            statement.executeUpdate(sql);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 }
