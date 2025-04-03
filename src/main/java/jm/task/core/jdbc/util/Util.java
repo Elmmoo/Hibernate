@@ -6,7 +6,17 @@ import java.sql.SQLException;
 
 public class Util {
     // реализуйте настройку соеденения с БД
-    public Connection getConnection() throws SQLException {
-        return DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "root", "root");
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/mydb";
+    private static final String DB_USER = "root";
+    private static final String DB_PASSWORD = "root";
+
+    public Connection getConnection() {
+        try {
+            return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+        } catch (SQLException e) {
+            System.err.println("Ошибка при подключении к базе данных: " + e.getMessage());
+            return null;
+        }
     }
 }
+
