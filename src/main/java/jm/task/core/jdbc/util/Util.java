@@ -18,7 +18,7 @@ public class Util {
     static {
         try {
             Configuration configuration = new Configuration()
-                    .addAnnotatedClass(jm.task.core.jdbc.model.User.class)
+                    .addAnnotatedClass(User.class)
                     .setProperty("hibernate.connection.url", DB_URL)
                     .setProperty("hibernate.connection.username", DB_USER)
                     .setProperty("hibernate.connection.password", DB_PASSWORD)
