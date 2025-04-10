@@ -49,14 +49,14 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void saveUser(String name, String lastName, byte age) {
-            try(PreparedStatement preparedStatement = connection.prepareStatement(INSERT_TABLE_SQL)) {
-                preparedStatement.setString(1, name);
-                preparedStatement.setString(2, lastName);
-                preparedStatement.setByte(3, age);
-                preparedStatement.executeUpdate();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
+        try(PreparedStatement preparedStatement = connection.prepareStatement(INSERT_TABLE_SQL)) {
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, lastName);
+            preparedStatement.setByte(3, age);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
