@@ -14,7 +14,7 @@ public class UserDaoJDBCImpl implements UserDao {
             "CREATE TABLE IF NOT EXISTS users (" +
                     "id BIGINT AUTO_INCREMENT PRIMARY KEY, " +
                     "name VARCHAR(255), " +
-                    "lastname VARCHAR(255), " +  // Добавлен столбец
+                    "lastname VARCHAR(255), " +
                     "age TINYINT)";
     private static final String DROP_TABLE_SQL = "DROP TABLE IF EXISTS users";
     private static final String INSERT_TABLE_SQL = "INSERT INTO users (name, lastname, age) VALUES (?, ?, ?)";
