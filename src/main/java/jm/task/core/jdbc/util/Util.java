@@ -17,6 +17,8 @@ public class Util {
 
     public static SessionFactory getSessionFactory() {
         if (sessionFactory == null) {
+            synchronized (Util.class) {
+                if (sessionFactory == null) {
             try {
                 Configuration configuration = new Configuration();
                 configuration.setProperty("hibernate.connection.driver_class", "com.mysql.cj.jdbc.Driver");
@@ -33,6 +35,8 @@ public class Util {
                 sessionFactory = configuration.buildSessionFactory(serviceRegistry);
             } catch (Exception e) {
                 e.printStackTrace();
+            }
+                }
             }
         }
         return sessionFactory;

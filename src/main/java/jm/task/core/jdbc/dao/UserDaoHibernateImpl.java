@@ -25,10 +25,8 @@ public class UserDaoHibernateImpl implements UserDao {
             session.createSQLQuery(CREATE_TABLE_SQL).executeUpdate();
             transaction.commit();
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
             e.printStackTrace();
+            System.err.println("Ошибка при создании таблицы: " + e.getMessage());
         }
     }
 
@@ -40,10 +38,8 @@ public class UserDaoHibernateImpl implements UserDao {
             session.createSQLQuery(DROP_TABLE_SQL).executeUpdate();
             transaction.commit();
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
             e.printStackTrace();
+            System.err.println("Ошибка при удалении таблицы: " + e.getMessage());
         }
     }
 
